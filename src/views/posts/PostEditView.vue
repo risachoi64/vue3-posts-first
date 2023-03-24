@@ -29,7 +29,7 @@
 						></span>
 						<span class="visually-hidden">Loading...</span>
 					</template>
-					<template v-else> 수정 </template>
+					<template v-else> 수정! </template>
 				</button>
 			</template>
 		</PostForm>
