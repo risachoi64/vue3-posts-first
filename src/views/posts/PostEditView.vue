@@ -37,9 +37,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+// import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getPostById, updatePost } from '@/api/posts';
+// import { getPostById, updatePost } from '@/api/posts';
 import PostForm from '@/components/posts/PostForm.vue';
 import { useAlert } from '@/composables/alert.js';
 import { useAxios } from '@/hooks/useAxios';
@@ -52,7 +52,11 @@ const { vAlert, vSuccess } = useAlert();
 
 const { data: form, error, loading } = useAxios(`/post/${id}`);
 
-const {} = useAxios(
+const {
+	error: editError,
+	loading: editLoading,
+	execute,
+} = useAxios(
 	`/posts/${id}`,
 	{ method: 'patch' },
 	{
@@ -61,14 +65,17 @@ const {} = useAxios(
 			vSuccess('수정이 완료되었습니다!');
 			router.push({ name: 'PostDetail', params: { id } });
 		},
-		onError: () => {
+		onError: err => {
 			vAlert(err.message);
 		},
 	},
 );
 
-const editError = ref(null);
-const editLoading = ref(false);
+const edit = () => {
+	execute({
+		...form.value,
+	});
+};
 
 const goDetailPage = () => router.push({ name: 'PostDetail', params: { id } });
 </script>
